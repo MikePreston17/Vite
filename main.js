@@ -1,6 +1,5 @@
-import './style.css'
-
-document.querySelector('#app').innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+import "./css/style.css";
+import "alpinejs/dist/cdn";
+import "htmx.org/dist/htmx";
+// import "./src/airtable";
+import "./src/neo";

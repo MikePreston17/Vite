@@ -3,13 +3,15 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nick Preston</title>
   <script src="https://unpkg.com/htmx.org@1.4.1"></script>
   <script src="https://unpkg.com/htmx.org@1.4.1/dist/ext/client-side-templates.js"></script>
   <script src="https://unpkg.com/mustache@latest"></script>
-  <script type="module" src="./main.js"></script>
+  
+  <script type="module" crossorigin src="/assets/main.5a536ef5.js"></script>
+  <link rel="stylesheet" href="/assets/main.12eeb32c.css">
 </head>
 
 <body x-data="setup()">
@@ -103,15 +105,7 @@
   </div>
 </footer>
 
-<script type="module">
-  const bearer_token = import.meta.env.VITE_VERCEL_AIRTABLE_BEARER_TOKEN
-  console.log('bearer_token (b):>> ', bearer_token);
-  document.body.addEventListener('htmx:configRequest', function (event) {
-    event.detail.headers = [];
-    event.detail.headers['Content-Type'] = "application/x-www-form-urlencoded; charset=UTF-8"
-    event.detail.headers['Authorization'] = "Bearer " + bearer_token;
-  });
-</script>
+
 <script>
   function setup() {
     // console.log('base_api_url (browser) :>> ', base_api_url);
