@@ -27,6 +27,8 @@
         <a href="/loadouts/">Get Started!</a>
 
 
+        <button x-get="hello-nurse/">Fastify it!</button>
+
 
         <div hx-ext="client-side-templates">
           <button hx-get="https://jsonplaceholder.typicode.com/todos/1" hx-swap="innerHTML" hx-target="#content"
@@ -78,7 +80,7 @@
       </path>
     </svg>
     <p x-show="false">
-      ACME Industries Ltd. <br />Providing reliable tech since 2014
+      ACME Labs Ltd. <br />Providing reliable tech since 2014
     </p>
   </div>
   <div x-show="false">
@@ -116,8 +118,8 @@
   function setup() {
     // console.log('base_api_url (browser) :>> ', base_api_url);
     return {
-      tablename: 'Zeroes',
-      maxRecords: 10,
+      // tablename: 'Zeroes',
+      // maxRecords: 10,
       // get zeroes_url() {
       //   return `${base_api_url}${this.tablename}?maxRecords=${this.maxRecords}`;
       // }
