@@ -10,7 +10,7 @@ console.log("user :>> ", user);
 console.log("uri :>> ", uri);
 const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
 
-async function makeUserLikeABuild(userName, buildName) {
+async function user_likes_build(userName, buildName) {
   // To learn more about sessions: https://neo4j.com/docs/javascript-manual/current/session-api/
   const session = driver.session({ database: "neo4j" });
 
@@ -32,7 +32,7 @@ async function makeUserLikeABuild(userName, buildName) {
       const user = record.get("p1");
       const build = record.get("p2");
       console.info(
-        `Created friendship between: ${user.properties.name}, ${build.properties.name}`
+        `Created Like between: ${user.properties.name}, ${build.properties.name}`
       );
     });
   } catch (error) {
@@ -43,7 +43,7 @@ async function makeUserLikeABuild(userName, buildName) {
   }
 }
 
-async function findBuild(buildName) {
+async function find_build_by_name(buildName = "") {
   const session = driver.session({ database: "neo4j" });
 
   try {
@@ -58,7 +58,7 @@ async function findBuild(buildName) {
     );
     console.log("readResult :>> ", readResult);
     readResult.records.forEach((record) => {
-      console.log(`Found Build: ${record.get("name")}`);
+      console.log(`Found Build: ${record.get("build")}`);
     });
     return readResult;
   } catch (error) {
@@ -68,7 +68,7 @@ async function findBuild(buildName) {
   }
 }
 
-async function findBuildsForUser(userName = null) {
+async function find_builds_for_user(userName = null) {
   const session = driver.session({ database: "neo4j" });
 
   const readQuery = `
@@ -100,66 +100,62 @@ async function findBuildsForUser(userName = null) {
   }
 }
 
-async function getRecommendations(partName = "", buildName = "") {
+async function get_recommended_builds(partName = "") {
   const session = driver.session({ database: "neo4j" });
 
   const readQuery = `
-        
         match (user:User)-[like:LIKES]-(build:Build )-[p:HAS_PART]->(part:Part)
-        where part.Name contains 'Black' or part.Name contains '80'
-        return user,build, like, p, part, count(*) as occurrence
+        where part.Name contains $partName
+        return user, build, like, p, part, count(*) as occurrence
         order by occurrence desc
         limit 5
-
     `;
 
   try {
     const readResult = await session.executeRead((transaction) =>
-      transaction.run(readQuery, { partName, buildName })
+      transaction.run(readQuery, { partName })
     );
     console.log("readResult :>> ", readResult);
     readResult.records.forEach((record) => {
-      //   console.log(
-      //     `Found Recommended Builds with Part ${partName}: ${record.get(
-      //       "part.Kind"
-      //     )}`
-      //   );
+      console.log(
+        `Found Recommended Builds with Part ${partName}: ${record.get("part")}`
+      );
     });
+    return readResult;
   } catch (error) {
     console.error(`Something went wrong: ${error}`);
   } finally {
     await session.close();
-    return readResult;
   }
 }
 
-(async () => {
-  try {
-    const userName = "Nick";
-    const build2Name = "Spectre";
+/**TODO:
+     * 
+     * Place these in a test
+     * 
+     * 
+     * 
+     * 
+     * 
+    (async () => {
+      try {
+        const userName = "Nick";
+        const build2Name = "Spectre";
+        await user_likes_build(userName, build2Name);
 
-    await makeUserLikeABuild(userName, build2Name);
+        let builds = await find_build_by_name(build2Name);
+        console.log("builds :>> ", builds);
 
-    // let builds = await findBuild(userName);
-    // console.log("builds :>> ", builds);
-    let builds = await findBuild(build2Name);
-    console.log("builds :>> ", builds);
+        const builds_for_user = await find_builds_for_user(userName);
+        console.log("builds_for_user :>> ", builds_for_user);
+        const recommendations = await get_recommended_builds("80");
+        console.log("recommendations :>> ", recommendations);
 
-    // const builds_for_user = await findBuildsForUser(userName);
-    // // console.log("builds_for_user :>> ", builds_for_user);
-    // const recommendations = await getRecommendations("80");
-  } catch (error) {
-    console.error(`Something went wrong: ${error}`);
-  } finally {
-    // Don't forget to close the driver connection when you're finished with it.
-    await driver.close();
-  }
-})();
-
-// function get_builds() {
-//   const query = `
-//     match (p:Build)
-//     return p
-//     limit 10
-//     `;
-// }
+    } catch (error) {
+        console.error(`Something went wrong: ${error}`);
+      } finally {
+        // Don't forget to close the driver connection when you're finished with it.
+        await driver.close();
+      }
+    })();
+*/
