@@ -6,7 +6,9 @@
     "start": "npx http-server ./dist",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "buildcss:dev": "cross-env TAILWIND_MODE=build postcss ./css/style.css -o ./dist/css/app.css",
+    "buildcss:release": "cross-env NODE_ENV=production postcss ./css/style.css -o ./dist/css/app.css"
   },
   "devDependencies": {
     "vite": "^2.9.9"
