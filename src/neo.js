@@ -5,9 +5,9 @@ import neo4j from "neo4j-driver";
 const uri = import.meta.env.VITE_VERCEL_URI;
 const user = import.meta.env.VITE_VERCEL_USER;
 const password = import.meta.env.VITE_VERCEL_PASSWORD;
-console.log("password :>> ", password);
-console.log("user :>> ", user);
-console.log("uri :>> ", uri);
+// console.log("password :>> ", password);
+// console.log("user :>> ", user);
+// console.log("uri :>> ", uri);
 const driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
 
 async function user_likes_build(userName, buildName) {
