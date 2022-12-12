@@ -3,6 +3,7 @@ const apiKey = import.meta.env.VITE_VERCEL_AIRTABLE_API_KEY;
 const baseKey = import.meta.env.VITE_VERCEL_BASE_KEY;
 const bearer_token = import.meta.env.VITE_VERCEL_AIRTABLE_BEARER_TOKEN;
 export const base_api_url = `https://api.airtable.com/v0/${baseKey}/`;
+const devmode = import.meta.env.NODE_ENV === "development";
 
 export const formatRecords = (records = []) => {
   let collection = [].concat(records);
@@ -73,8 +74,8 @@ export const patch = async (tableName = null, records = []) => {
 
   console.log("records received", records);
   // let id = record.id;
-  // console.log("id", id);
-  // console.log("record", { ...record });
+  // devmode && console.log("id", id);
+  // devmode && console.log("record", { ...record });
 
   let formattedRecords = records.map((r) => {
     const { id, ...rest } = r;
@@ -87,34 +88,6 @@ export const patch = async (tableName = null, records = []) => {
   console.log("records to patch :>> ", formattedRecords);
   const data = {
     records: formattedRecords,
-    // [
-    // {
-    //   id: "reczhLAjJHszwLZc6",
-    //   fields: {
-    //     Name: "Make a 10 year plan!",
-    //     Status: "Todo",
-    //     Points: 5,
-    //   },
-    // },
-    // {
-    //   id: "recUT5TOy3Pd0WEW5",
-    //   fields: {
-    //     Name: "Sweet Caroline",
-    //     Notes: "good times",
-    //     Status: "Todo",
-    //     Points: 1,
-    //   },
-    // },
-    // {
-    //   id: "recqbekj0nyFEyrZq",
-    //   fields: {
-    //     Name: "Exceed Expectations",
-    //     Notes: "...",
-    //     Status: "Todo",
-    //     Points: 3,
-    //   },
-    // },
-    // ],
   };
 
   console.log("data patch :>> ", data);
